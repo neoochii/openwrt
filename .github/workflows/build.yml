@@ -12,7 +12,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: 'naseef/openwrt'
-          ref: 'h660gm-a'
+          ref: 'H660GM-A'
           fetch-depth: 0
 
       - name: Install Build Dependencies
