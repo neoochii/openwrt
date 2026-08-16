@@ -12,7 +12,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: 'naseef/openwrt'
-          ref: 'H660GM-A'
+          ref: 'h660gm-a'
           fetch-depth: 0
 
       - name: Install Build Dependencies
@@ -48,16 +48,14 @@ jobs:
 
       - name: Configure Target
         run: |
-          echo "CONFIG_TARGET_mediatek=y" > .config
-          echo "CONFIG_TARGET_mediatek_filogic=y" >> .config
-          echo "CONFIG_TARGET_mediatek_filogic_DEVICE_dasan_h660gm_a=y" >> .config
+          echo "CONFIG_TARGET_econet=y" > .config
+          echo "CONFIG_TARGET_econet_en7528=y" >> .config
+          echo "CONFIG_TARGET_econet_en7528_DEVICE_dasan_h660gm-a-airtel=y" >> .config
 
           make defconfig
 
-      - name: Show Target Configuration
-        run: |
-          grep "CONFIG_TARGET_mediatek" .config
-          grep "CONFIG_TARGET.*DEVICE" .config || true
+          echo "=== Target Configuration ==="
+          grep -E "CONFIG_TARGET_(econet|.*DEVICE)" .config
 
       - name: Download Sources
         run: |
@@ -70,11 +68,11 @@ jobs:
       - name: List Firmware
         if: always()
         run: |
-          find bin/targets/mediatek/filogic -type f -print
+          find bin/targets/econet/en7528 -type f -print
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: H660GM-A-Firmware
           path: |
-            bin/targets/mediatek/filogic/*
+            bin/targets/econet/en7528/*
